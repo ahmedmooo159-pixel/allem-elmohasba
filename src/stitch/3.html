@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>محاسبتك | محاكي الدورة المحاسبية</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#111c2d",
+                    "surface-variant": "#d9e3fb",
+                    "surface-container-low": "#f0f3ff",
+                    "outline-variant": "#c7c4d9",
+                    "secondary-fixed": "#dbe2f9",
+                    "surface-tint": "#4d3cf2",
+                    "surface-container": "#e8eeff",
+                    "inverse-primary": "#c4c0ff",
+                    "primary-container": "#5b4dff",
+                    "on-tertiary-fixed-variant": "#004e60",
+                    "background": "#f9f9ff",
+                    "surface": "#f9f9ff",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container-highest": "#d9e3fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#001f28",
+                    "on-secondary-container": "#5c6477",
+                    "outline": "#777588",
+                    "on-secondary-fixed-variant": "#3f4759",
+                    "on-secondary-fixed": "#141b2c",
+                    "tertiary": "#005b70",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#464556",
+                    "on-primary-container": "#efebff",
+                    "tertiary-fixed": "#b7eaff",
+                    "tertiary-fixed-dim": "#4cd6ff",
+                    "inverse-surface": "#273143",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3311dc",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#bfc6dc",
+                    "secondary": "#565e71",
+                    "surface-dim": "#d0daf2",
+                    "primary-fixed": "#e3dfff",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#110068",
+                    "secondary-container": "#dbe2f9",
+                    "surface-container-high": "#dfe8ff",
+                    "on-background": "#111c2d",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#d4f2ff",
+                    "primary": "#412ce7",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#ecf0ff",
+                    "tertiary-container": "#007590"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "64px",
+                    "lg": "40px",
+                    "margin-desktop": "32px",
+                    "md": "24px",
+                    "margin-mobile": "16px",
+                    "sm": "12px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": ["IBM Plex Sans Arabic"],
+                    "body-md": ["IBM Plex Sans Arabic"],
+                    "headline-md": ["IBM Plex Sans Arabic"],
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "label-sm": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: #f9f9ff;
+            color: #111c2d;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid #EAECF0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: #d9e3fb;
+            z-index: -1;
+        }
+
+        .step-active .step-circle {
+            background-color: #5b4dff;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(91, 77, 255, 0.2);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7c4d9;
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed right-0 top-0 h-screen w-[280px] z-50 bg-on-surface dark:bg-surface-container-lowest flex flex-col py-md border-l border-outline-variant/20 shadow-2xl">
+<div class="px-md mb-lg">
+<div class="flex flex-row-reverse items-center gap-sm">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-headline-md font-display-lg text-surface-container-lowest dark:text-primary leading-tight">محاسبتك</h1>
+<p class="text-label-sm text-surface-variant/70">إتقان المحاسبة</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<!-- Active State: Dashboard -->
+<a class="flex flex-row-reverse items-center gap-sm bg-primary-container text-on-primary-container rounded-xl p-3 mx-2 transition-all duration-300 translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">لوحة التحكم</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-sm text-label-sm">الدورات التدريبية</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-label-sm text-label-sm">بنك الأسئلة</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">قاموس المصطلحات</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">معمل القيود</span>
+</a>
+<!-- Active/Relevant to context -->
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-sm text-label-sm">محاكي الدورة</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm">التحليلات</span>
+</a>
+</nav>
+<div class="mt-auto px-2 border-t border-outline-variant/10 pt-4">
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant dark:text-on-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">الإعدادات</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-error p-3 mx-2 hover:bg-error/10 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm text-label-sm">تسجيل الخروج</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="mr-[280px] min-h-screen relative overflow-hidden bg-background">
+<!-- Top App Bar -->
+<header class="flex flex-row-reverse justify-between items-center px-margin-desktop w-full h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 sticky top-0 z-40">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="relative group cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">chat_bubble</span>
+<div class="flex items-center gap-sm pr-md border-r border-outline-variant/30">
+<div class="text-left">
+<p class="font-body-md text-sm font-semibold">أحمد العتيبي</p>
+<p class="text-[11px] text-on-surface-variant">محاسب متدرب</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/20" data-alt="A professional studio portrait of a young Middle Eastern male accountant in business casual attire, smiling confidently. Soft cinematic lighting with a neutral, high-end office background. Professional photography style, sharp focus, vibrant colors, reflecting a modern corporate atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3sULzkMUpCi9Sb04egQ5zZBjPruQwjv8SlOrK6nAm3tBLHIvi3SHEk_l1gawTYSRrY1FX25_Mlh9yojRas1aIcqxKwsrIQbfQYPgtPUHmhqOCDJAaL0R0nCwGJe9rspKqV3qfkmpqMVfcwf98RwH6DWIRHQYHJovBd6cbIsrrUgoWctqt2GheojVgU3E8KiuPej2bfQwh-08h6Tb6lxnEqIAITaoMxk9Juc9yhCu3DIlBKn2F0wZtVZlp-F7j8GHgpP05i9DSzM"/>
+</div>
+</div>
+<div class="flex-1 max-w-md ml-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute right-3 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pr-10 pl-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="بحث عن قيود، دروس، أو تقارير..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Hero: Accounting Cycle Simulator -->
+<section class="p-margin-desktop">
+<div class="max-w-[1200px] mx-auto">
+<!-- Welcome Section -->
+<div class="flex justify-between items-end mb-xl">
+<div class="space-y-2">
+<span class="inline-flex items-center gap-xs px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                            الأداة التفاعلية
+                        </span>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tight">محاكي الدورة المحاسبية</h2>
+<p class="text-on-surface-variant font-body-lg max-w-xl">تعلم تسلسل العمليات المالية من البداية وحتى إصدار القوائم الختامية في بيئة محاكاة واقعية ومتطورة.</p>
+</div>
+<button class="bg-primary text-white h-[48px] px-8 rounded-[18px] font-headline-md flex items-center gap-sm hover:shadow-lg hover:shadow-primary/30 active:scale-95 transition-all">
+<span class="material-symbols-outlined">play_arrow</span>
+                        ابدأ المحاكاة
+                    </button>
+</div>
+<!-- Timeline Progress Stepper -->
+<div class="relative mb-xl py-lg">
+<div class="flex justify-between relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-col items-center gap-sm w-1/6 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+<span class="text-label-sm font-medium text-center text-on-surface-variant group-hover:text-primary">العمليات المالية</span>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center gap-sm w-1/6 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<span class="text-label-sm font-medium text-center text-on-surface-variant group-hover:text-primary">دفتر اليومية</span>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center gap-sm w-1/6 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="text-label-sm font-medium text-center text-on-surface-variant group-hover:text-primary">دفتر الأستاذ</span>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center gap-sm w-1/6 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined">balance</span>
+</div>
+<span class="text-label-sm font-medium text-center text-on-surface-variant group-hover:text-primary">ميزان المراجعة</span>
+</div>
+<!-- Step 5 (ACTIVE) -->
+<div class="flex flex-col items-center gap-sm w-1/6 group step-active">
+<div class="w-12 h-12 rounded-full step-circle flex items-center justify-center border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_suggest</span>
+</div>
+<span class="text-label-sm font-bold text-center text-primary">التسويات</span>
+</div>
+<!-- Step 6 -->
+<div class="flex flex-col items-center gap-sm w-1/6 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary/40 border-4 border-surface z-10 transition-all">
+<span class="material-symbols-outlined">assessment</span>
+</div>
+<span class="text-label-sm font-medium text-center text-on-surface-variant/50 group-hover:text-primary">القوائم المالية</span>
+</div>
+</div>
+<!-- Connector Lines -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-surface-container-highest -translate-y-1/2">
+<div class="h-full bg-primary transition-all duration-700 ease-in-out" style="width: 75%;"></div>
+</div>
+</div>
+<!-- Simulation Interactive Area (Bento Grid) -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Work Canvas -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="glass-card rounded-xl p-md">
+<div class="flex justify-between items-center mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+<h3 class="font-headline-md text-headline-md">تحليل العمليات الجارية</h3>
+</div>
+<div class="flex gap-xs">
+<span class="px-2 py-1 bg-surface-container-high rounded text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">مدين</span>
+<span class="px-2 py-1 bg-surface-container-high rounded text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">دائن</span>
+</div>
+</div>
+<div class="space-y-sm">
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-sm rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-all">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">shopping_cart</span>
+</div>
+<div>
+<p class="font-body-md font-semibold">شراء أثاث مكتبي نقداً</p>
+<p class="text-xs text-on-surface-variant">رقم القيد: #JV-204</p>
+</div>
+</div>
+<div class="text-left font-display-lg text-lg text-primary">
+                                        15,000 <span class="text-xs font-body-md text-on-surface-variant">ر.س</span>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center justify-between p-sm rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-all">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">payments</span>
+</div>
+<div>
+<p class="font-body-md font-semibold">سداد فواتير الكهرباء والمياه</p>
+<p class="text-xs text-on-surface-variant">رقم القيد: #JV-205</p>
+</div>
+</div>
+<div class="text-left font-display-lg text-lg text-primary">
+                                        2,450 <span class="text-xs font-body-md text-on-surface-variant">ر.س</span>
+</div>
+</div>
+<!-- Interactive Input State -->
+<div class="mt-lg p-md border-2 border-dashed border-primary/20 rounded-xl bg-primary/5 flex flex-col items-center justify-center text-center gap-sm">
+<div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary animate-bounce">
+<span class="material-symbols-outlined text-3xl">add</span>
+</div>
+<p class="font-body-md font-medium">اسحب العملية المالية هنا لتحليلها</p>
+<p class="text-xs text-on-surface-variant">أو قم بالنقر لإضافة عملية يدوية جديدة</p>
+</div>
+</div>
+</div>
+<!-- Mini Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-card rounded-xl p-md border-r-4 border-r-primary">
+<p class="text-label-sm text-on-surface-variant mb-1">إجمالي المدين</p>
+<h4 class="font-display-lg text-2xl text-on-surface">124,500.00</h4>
+</div>
+<div class="glass-card rounded-xl p-md border-r-4 border-r-tertiary">
+<p class="text-label-sm text-on-surface-variant mb-1">إجمالي الدائن</p>
+<h4 class="font-display-lg text-2xl text-on-surface">124,500.00</h4>
+</div>
+<div class="glass-card rounded-xl p-md border-r-4 border-r-success text-green-600 bg-green-50/30">
+<p class="text-label-sm text-on-surface-variant mb-1">حالة التوازن</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<h4 class="font-display-lg text-2xl">متوازن</h4>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Information & Tools -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Assistant AI Tool -->
+<div class="bg-on-surface rounded-xl p-md text-white relative overflow-hidden">
+<!-- Background Shader Effect -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+
+</div>
+<div class="relative z-10 space-y-sm">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+</div>
+<h4 class="font-headline-md text-lg">المساعد الذكي</h4>
+</div>
+<p class="text-surface-variant/80 text-sm leading-relaxed">
+                                    "أحسنت! ميزان المراجعة الآن متوازن. الخطوة القادمة هي إجراء تسويات الجرد بنهاية الفترة المالية."
+                                </p>
+<div class="pt-sm">
+<button class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-semibold transition-colors">
+                                        طلب تحليل القيد الحالي
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Progress Card -->
+<div class="glass-card rounded-xl p-md">
+<h4 class="font-headline-md text-sm mb-md">تقدم الدورة المحاسبية</h4>
+<div class="space-y-md">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant">المهام المكتملة</span>
+<span class="font-bold">4 من 6</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 66%;"></div>
+</div>
+<ul class="space-y-sm">
+<li class="flex items-center gap-sm text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm text-green-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        توثيق كافة المستندات المؤيدة
+                                    </li>
+<li class="flex items-center gap-sm text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm text-green-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        ترحيل القيود لدفتر الأستاذ
+                                    </li>
+<li class="flex items-center gap-sm text-xs text-primary font-bold">
+<span class="material-symbols-outlined text-sm animate-pulse">radio_button_checked</span>
+                                        إعداد ميزان المراجعة قبل التسويات
+                                    </li>
+<li class="flex items-center gap-sm text-xs text-on-surface-variant/40">
+<span class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+                                        إغلاق الحسابات المؤقتة
+                                    </li>
+</ul>
+</div>
+</div>
+<!-- Resources/Help -->
+<div class="glass-card rounded-xl p-md border-dashed border-2 border-outline-variant">
+<div class="flex items-center gap-sm mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant">lightbulb</span>
+<h4 class="text-sm font-semibold">هل تحتاج مساعدة؟</h4>
+</div>
+<p class="text-[12px] text-on-surface-variant leading-relaxed mb-md">
+                                يمكنك الاطلاع على دليل المعايير المحاسبية الدولية (IFRS) المتعلقة بالتسويات الجردية.
+                            </p>
+<a class="text-xs text-primary font-bold hover:underline flex items-center gap-xs" href="#">
+                                فتح مكتبة المراجع
+                                <span class="material-symbols-outlined text-xs">arrow_left</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Action Component (only for dashboard) -->
+<div class="fixed bottom-margin-desktop left-margin-desktop z-40">
+<button class="bg-primary-container text-on-primary-container w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl">question_mark</span>
+</button>
+</div>
+</main>
+<script>
+        // Micro-interactions and simulation logic
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle interaction trigger
+            });
+        });
+
+        // Initialize state for simulation buttons
+        const startSimBtn = document.querySelector('button:contains("ابدأ المحاكاة")');
+        if (startSimBtn) {
+            startSimBtn.addEventListener('click', () => {
+                alert('بدء جولة المحاكاة الجديدة...');
+            });
+        }
+
+        // Search highlight effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-primary/40');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-primary/40');
+        });
+    </script>
+</body></html>

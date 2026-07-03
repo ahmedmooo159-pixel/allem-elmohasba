@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>محاسبتك | محاكي الدورة المحاسبية</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#111c2d",
+                    "surface-variant": "#d9e3fb",
+                    "surface-container-low": "#f0f3ff",
+                    "outline-variant": "#c7c4d9",
+                    "secondary-fixed": "#dbe2f9",
+                    "surface-tint": "#4d3cf2",
+                    "surface-container": "#e8eeff",
+                    "inverse-primary": "#c4c0ff",
+                    "primary-container": "#5b4dff",
+                    "on-tertiary-fixed-variant": "#004e60",
+                    "background": "#f9f9ff",
+                    "surface": "#f9f9ff",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container-highest": "#d9e3fb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#001f28",
+                    "on-secondary-container": "#5c6477",
+                    "outline": "#777588",
+                    "on-secondary-fixed-variant": "#3f4759",
+                    "on-secondary-fixed": "#141b2c",
+                    "tertiary": "#005b70",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#464556",
+                    "on-primary-container": "#efebff",
+                    "tertiary-fixed": "#b7eaff",
+                    "tertiary-fixed-dim": "#4cd6ff",
+                    "inverse-surface": "#273143",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3311dc",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#bfc6dc",
+                    "secondary": "#565e71",
+                    "surface-dim": "#d0daf2",
+                    "primary-fixed": "#e3dfff",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#110068",
+                    "secondary-container": "#dbe2f9",
+                    "surface-container-high": "#dfe8ff",
+                    "on-background": "#111c2d",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#d4f2ff",
+                    "primary": "#412ce7",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#ecf0ff",
+                    "tertiary-container": "#007590"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "64px",
+                    "lg": "40px",
+                    "margin-desktop": "32px",
+                    "md": "24px",
+                    "margin-mobile": "16px",
+                    "sm": "12px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": ["IBM Plex Sans Arabic"],
+                    "body-md": ["IBM Plex Sans Arabic"],
+                    "headline-md": ["IBM Plex Sans Arabic"],
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "label-sm": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: #f9f9ff;
+            color: #111c2d;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid #EAECF0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-active .step-circle {
+            background-color: #412ce7;
+            color: white;
+            box-shadow: 0 0 0 6px rgba(65, 44, 231, 0.15);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7c4d9;
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed right-0 top-0 h-screen w-[280px] z-50 bg-on-surface flex flex-col py-md border-l border-outline-variant/20 shadow-2xl">
+<div class="px-md mb-lg">
+<div class="flex flex-row-reverse items-center gap-sm">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-headline-md font-display-lg text-white leading-tight">محاسبتك</h1>
+<p class="text-label-sm text-surface-variant/70">إتقان المحاسبة</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">لوحة التحكم</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-sm text-label-sm">الدورات التدريبية</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-label-sm text-label-sm">بنك الأسئلة</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm bg-primary-container text-on-primary-container rounded-xl p-3 mx-2 transition-all duration-300 translate-x-1" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-sm text-label-sm">محاكي الدورة</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm">التحليلات</span>
+</a>
+</nav>
+<div class="mt-auto px-2 border-t border-outline-variant/10 pt-4">
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">الإعدادات</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-error p-3 mx-2 hover:bg-error/10 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm text-label-sm">تسجيل الخروج</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="mr-[280px] min-h-screen relative overflow-hidden bg-background">
+<!-- Top App Bar -->
+<header class="flex flex-row-reverse justify-between items-center px-margin-desktop w-full h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 sticky top-0 z-40">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="relative group cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">chat_bubble</span>
+<div class="flex items-center gap-sm pr-md border-r border-outline-variant/30">
+<div class="text-left">
+<p class="font-body-md text-sm font-semibold">أحمد العتيبي</p>
+<p class="text-[11px] text-on-surface-variant">محاسب متدرب</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF3sULzkMUpCi9Sb04egQ5zZBjPruQwjv8SlOrK6nAm3tBLHIvi3SHEk_l1gawTYSRrY1FX25_Mlh9yojRas1aIcqxKwsrIQbfQYPgtPUHmhqOCDJAaL0R0nCwGJe9rspKqV3qfkmpqMVfcwf98RwH6DWIRHQYHJovBd6cbIsrrUgoWctqt2GheojVgU3E8KiuPej2bfQwh-08h6Tb6lxnEqIAITaoMxk9Juc9yhCu3DIlBKn2F0wZtVZlp-F7j8GHgpP05i9DSzM"/>
+</div>
+</div>
+<div class="flex-1 max-w-md ml-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute right-3 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pr-10 pl-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 transition-all" placeholder="بحث عن قيود، دروس، أو تقارير..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Hero: Accounting Cycle Simulator -->
+<section class="p-margin-desktop">
+<div class="max-w-[1100px] mx-auto">
+<!-- Simplified Header Section -->
+<div class="flex justify-between items-center mb-xl">
+<div class="space-y-1">
+<h2 class="font-display-lg text-display-lg text-on-surface">محاكي الدورة المحاسبية</h2>
+<p class="text-on-surface-variant font-body-md">اتبع الخطوات لتنفيذ الدورة المحاسبية كاملة</p>
+</div>
+<!-- INCREASED BUTTON SIZE -->
+<button class="bg-primary text-white h-[64px] px-12 rounded-[20px] font-headline-md flex items-center gap-md hover:shadow-xl hover:shadow-primary/30 active:scale-95 transition-all text-xl">
+<span class="material-symbols-outlined text-2xl">play_circle</span>
+                    ابدأ المحاكاة الآن
+                </button>
+</div>
+<!-- LINEAR PROGRESSION STEPPER -->
+<div class="mb-xl px-4">
+<div class="flex items-center w-full">
+<!-- Step 1: Complete -->
+<div class="flex items-center flex-1">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[11px] mt-2 font-bold text-green-600">البداية</span>
+</div>
+<div class="flex-1 h-1 mx-2 bg-green-500 rounded-full"></div>
+</div>
+<!-- Step 2: Complete -->
+<div class="flex items-center flex-1">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[11px] mt-2 font-bold text-green-600">اليومية</span>
+</div>
+<div class="flex-1 h-1 mx-2 bg-green-500 rounded-full"></div>
+</div>
+<!-- Step 3: Complete -->
+<div class="flex items-center flex-1">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[11px] mt-2 font-bold text-green-600">الأستاذ</span>
+</div>
+<div class="flex-1 h-1 mx-2 bg-green-500 rounded-full"></div>
+</div>
+<!-- Step 4: Active -->
+<div class="flex items-center flex-1">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_0_0_6px_rgba(65,44,231,0.1)] z-10 scale-110">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">balance</span>
+</div>
+<span class="text-[12px] mt-2 font-bold text-primary">المراجعة</span>
+</div>
+<div class="flex-1 h-1 mx-2 bg-outline-variant/30 rounded-full"></div>
+</div>
+<!-- Step 5: Next -->
+<div class="flex items-center flex-1">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">settings_suggest</span>
+</div>
+<span class="text-[11px] mt-2 text-on-surface-variant">التسويات</span>
+</div>
+<div class="flex-1 h-1 mx-2 bg-outline-variant/30 rounded-full"></div>
+</div>
+<!-- Step 6: Final -->
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">assessment</span>
+</div>
+<span class="text-[11px] mt-2 text-on-surface-variant">القوائم</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Work Canvas -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="glass-card rounded-xl p-md">
+<div class="flex justify-between items-center mb-md border-b border-outline-variant/30 pb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">list_alt</span>
+<h3 class="font-headline-md">العمليات الحالية</h3>
+</div>
+<div class="flex gap-4">
+<div class="text-center px-4">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase">النوع</p>
+</div>
+<div class="text-center px-4 w-28">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase">المبلغ</p>
+</div>
+<div class="text-center px-4">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase">التاريخ</p>
+</div>
+</div>
+</div>
+<!-- REDUCED DETAIL LIST (Amount, Type, Date only) -->
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-md rounded-lg bg-white border border-outline-variant/30 hover:shadow-sm transition-all">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">receipt</span>
+</div>
+<p class="font-body-md font-semibold">شراء أثاث</p>
+</div>
+<div class="flex items-center gap-4 text-sm">
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-xs font-bold text-on-surface-variant">مدين</span>
+<p class="w-28 text-left font-display-lg text-lg text-primary">15,000 ر.س</p>
+<span class="text-on-surface-variant">12 أكتـ</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md rounded-lg bg-white border border-outline-variant/30 hover:shadow-sm transition-all">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">payments</span>
+</div>
+<p class="font-body-md font-semibold">فواتير مرافق</p>
+</div>
+<div class="flex items-center gap-4 text-sm">
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-xs font-bold text-on-surface-variant">دائن</span>
+<p class="w-28 text-left font-display-lg text-lg text-primary">2,450 ر.س</p>
+<span class="text-on-surface-variant">14 أكتـ</span>
+</div>
+</div>
+</div>
+<!-- LARGE SUBMIT ACTION -->
+<div class="mt-lg">
+<button class="w-full h-16 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center gap-sm hover:bg-primary-container/80 transition-all font-headline-md text-lg border-2 border-primary/20">
+<span class="material-symbols-outlined">send</span>
+                                ترحيل وتأكيد العمليات
+                            </button>
+</div>
+</div>
+<!-- BALANCE STATUS WITH CLEAR VISUAL CUES -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- SUCCESS CASE -->
+<div class="bg-white border-2 border-green-500/30 rounded-2xl p-md flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-label-sm text-green-700 font-bold mb-1">حالة التوازن</p>
+<h4 class="font-display-lg text-2xl text-green-800">ميزان متزن</h4>
+</div>
+</div>
+<div class="text-left px-4 border-r border-green-100">
+<p class="text-xs text-on-surface-variant">الفارق</p>
+<p class="font-bold text-green-600">0.00 ر.س</p>
+</div>
+</div>
+<!-- STATS DISPLAY -->
+<div class="bg-on-surface rounded-2xl p-md flex items-center justify-between text-white">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-3xl">calculate</span>
+</div>
+<div>
+<p class="text-label-sm text-surface-variant/70 mb-1">إجمالي الحركات</p>
+<h4 class="font-display-lg text-2xl">124,500.00</h4>
+</div>
+</div>
+<span class="material-symbols-outlined text-surface-variant/30">chevron_left</span>
+</div>
+</div>
+</div>
+<!-- Sidebar Info -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Assistant Card -->
+<div class="bg-primary rounded-2xl p-lg text-white relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined">smart_toy</span>
+<h4 class="font-headline-md">توجيه ذكي</h4>
+</div>
+<p class="text-white/90 text-sm leading-relaxed mb-lg">
+                                "قمت بترحيل العمليات بنجاح. الميزان متوازن تماماً. يمكنك الآن الانتقال لمرحلة التسويات."
+                            </p>
+<button class="w-full py-3 bg-white text-primary rounded-xl font-bold hover:bg-surface-container-lowest transition-colors shadow-lg">
+                                الانتقال للخطوة التالية
+                            </button>
+</div>
+</div>
+<!-- Simplified Progress -->
+<div class="glass-card rounded-xl p-md">
+<h4 class="font-headline-md text-sm mb-md">الإنجاز</h4>
+<div class="space-y-sm">
+<div class="flex justify-between items-center text-xs mb-1">
+<span class="text-on-surface-variant">التقدم الكلي</span>
+<span class="font-bold text-primary">66%</span>
+</div>
+<div class="h-3 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 66%;"></div>
+</div>
+</div>
+</div>
+<!-- Help Trigger -->
+<div class="p-md rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low flex items-center gap-md">
+<span class="material-symbols-outlined text-primary scale-125">help_center</span>
+<div>
+<p class="font-bold text-sm">هل تواجه مشكلة؟</p>
+<p class="text-xs text-on-surface-variant">تحدث مع المعلم الافتراضي</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+    // Simplified interactions
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {});
+    });
+
+    const searchInput = document.querySelector('input[type="text"]');
+    if(searchInput) {
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    }
+</script>
+</body></html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mohasabtak AI - مساعدك المحاسبي الذكي</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#b7eaff",
+                    "surface-container": "#e8eeff",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#dbe2f9",
+                    "primary-container": "#5b4dff",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#110068",
+                    "on-background": "#111c2d",
+                    "background": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#e3dfff",
+                    "outline": "#777588",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#004e60",
+                    "surface": "#f9f9ff",
+                    "surface-container-high": "#dfe8ff",
+                    "secondary-fixed-dim": "#bfc6dc",
+                    "surface-container-highest": "#d9e3fb",
+                    "tertiary": "#005b70",
+                    "outline-variant": "#c7c4d9",
+                    "on-surface-variant": "#464556",
+                    "surface-variant": "#d9e3fb",
+                    "inverse-surface": "#273143",
+                    "on-secondary-fixed": "#141b2c",
+                    "surface-tint": "#4d3cf2",
+                    "primary": "#412ce7",
+                    "surface-bright": "#f9f9ff",
+                    "inverse-on-surface": "#ecf0ff",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#4cd6ff",
+                    "tertiary-container": "#007590",
+                    "on-tertiary-fixed": "#001f28",
+                    "on-primary-fixed-variant": "#3311dc",
+                    "on-error": "#ffffff",
+                    "secondary": "#565e71",
+                    "on-secondary-container": "#5c6477",
+                    "surface-dim": "#d0daf2",
+                    "surface-container-low": "#f0f3ff",
+                    "on-primary-container": "#efebff",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "on-secondary-fixed-variant": "#3f4759",
+                    "secondary-fixed": "#dbe2f9",
+                    "inverse-primary": "#c4c0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#111c2d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "4px",
+                    "base": "8px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "label-sm": ["IBM Plex Sans Arabic"],
+                    "display-lg": ["IBM Plex Sans Arabic"],
+                    "body-lg": ["IBM Plex Sans Arabic"],
+                    "display-lg-mobile": ["IBM Plex Sans Arabic"],
+                    "body-md": ["IBM Plex Sans Arabic"],
+                    "headline-md": ["IBM Plex Sans Arabic"]
+            },
+            "fontSize": {
+                    "label-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: #f9f9ff;
+            overflow: hidden;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #e3dfff;
+            border-radius: 10px;
+        }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+        .sidebar-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="flex h-screen w-full bg-background">
+<!-- SideNavBar -->
+<aside class="fixed right-0 top-0 h-screen w-[280px] z-50 bg-on-surface flex flex-col py-md border-l border-outline-variant/20 sidebar-transition hidden md:flex shadow-2xl">
+<!-- Header -->
+<div class="px-6 mb-8">
+<div class="flex flex-row-reverse items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-headline-md font-display-lg text-surface-container-lowest tracking-tight">محاسبتك</h1>
+<p class="text-label-sm font-label-sm text-outline-variant/70">إتقان المحاسبة</p>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 space-y-1">
+<a class="flex flex-row-reverse items-center gap-sm bg-primary/20 text-primary-fixed rounded-xl p-3 mx-2 transition-transform" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-sm text-label-sm">المدرب الذكي</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">لوحة التحكم</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-sm text-label-sm">الدورات التدريبية</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-label-sm text-label-sm">بنك الأسئلة</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">معمل القيود</span>
+</a>
+</nav>
+<!-- CTA & Footer -->
+<div class="px-4 mt-auto">
+<div class="space-y-1 border-t border-outline-variant/10 pt-4">
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">الإعدادات</span>
+</a>
+<a class="flex flex-row-reverse items-center gap-sm text-surface-variant p-3 mx-2 hover:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined text-error">logout</span>
+<span class="font-label-sm text-label-sm">تسجيل الخروج</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col relative md:mr-[280px] h-screen bg-surface-container-lowest">
+<!-- TopNavBar -->
+<header class="flex flex-row-reverse justify-between items-center px-margin-desktop w-full h-16 bg-white/80 backdrop-blur-xl sticky top-0 z-40 border-b border-outline-variant/10">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors duration-200 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtJudkUx0Gn4cwIzx3mMTDPZdBfF7DT_Qv8BhOQjHB5fJwbHsWRILv2CAOnadIVHxYaCT-x8y7YaLEu5B_1uNX8ayv1BO-4sKGAyEv5vRC1KL79vQiDzeLezqmcRwiVbEpb6yjtenOqFcdSy_OqGTB4qeNNmx10x70ZeUcZldjtBEGBP19TzgfPDCdgwXuuHh-GgLSVP1mAKDJ-SmKm-mfb3CyS9uc5t00DWnIQ1yujMp_ZFfMBaIAjBh_SHgyl8TmEfInkSXn8UU"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-body-md font-bold text-on-surface">محادثة جديدة</span>
+<span class="text-outline-variant">/</span>
+<span class="text-body-md text-outline">مفاهيم القيد المزدوج</span>
+</div>
+</header>
+<!-- Chat Area -->
+<div class="flex-1 overflow-hidden flex flex-col max-w-4xl mx-auto w-full relative">
+<!-- Messages Container -->
+<div class="flex-1 overflow-y-auto chat-container space-y-6 p-6 pb-32">
+<!-- AI Response -->
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="space-y-4 max-w-[90%]">
+<p class="text-body-md font-body-md text-on-surface leading-relaxed">
+                        مرحباً أحمد! أنا جاهز لمساعدتك في رحلتك التعليمية اليوم. هل نبدأ بشرح مفهوم <strong>القيد المزدوج</strong> أم تفضل مراجعة تمرين معين؟
+                    </p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-row-reverse items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container text-sm">person</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl text-on-surface max-w-[80%] border border-outline-variant/10">
+<p class="text-body-md font-body-md">أهلاً بك! هل يمكنك شرح الفرق بين المدين والدائن بطريقة سهلة؟</p>
+</div>
+</div>
+<!-- AI Response -->
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="space-y-4 max-w-[90%]">
+<div class="text-body-md font-body-md text-on-surface space-y-4">
+<p>بالتأكيد! تخيل المحاسبة مثل كفتي الميزان:</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">•</span>
+<span><strong>المدين (Debit):</strong> هو الطرف "الآخذ" أو المستلم للقيمة. زيادة في الأصول أو المصروفات.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-tertiary font-bold">•</span>
+<span><strong>الدائن (Credit):</strong> هو الطرف "المعطي" أو مصدر القيمة. زيادة في الالتزامات أو الإيرادات.</span>
+</li>
+</ul>
+<div class="p-4 bg-primary-container/10 border-r-4 border-primary rounded-lg text-on-primary-fixed-variant">
+                            القاعدة الذهبية: لكل عملية مالية طرفان متساويان في القيمة، أحدهما مدين والآخر دائن.
+                        </div>
+</div>
+</div>
+</div>
+<!-- Typing Indicator -->
+<div class="flex items-center gap-4 py-2" id="typing-indicator" style="display: none;">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="bg-surface-container-high px-3 py-2 rounded-full flex gap-1 items-center">
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full typing-dot"></div>
+</div>
+</div>
+</div>
+<!-- Input Section -->
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/90 to-transparent">
+<div class="max-w-3xl mx-auto">
+<!-- Subtle Quick Actions -->
+<div class="flex gap-2 mb-3 overflow-x-auto pb-1 no-scrollbar justify-center">
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full border border-outline-variant/30 text-label-sm text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container hover:border-transparent transition-all">
+                        مثال عملي
+                    </button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full border border-outline-variant/30 text-label-sm text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container hover:border-transparent transition-all">
+                        ما هي المعادلة المحاسبية؟
+                    </button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full border border-outline-variant/30 text-label-sm text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container hover:border-transparent transition-all">
+                        شرح ميزان المراجعة
+                    </button>
+</div>
+<!-- Main Input Wrapper -->
+<div class="relative flex items-end gap-2 bg-surface-container-low border border-outline-variant/40 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all">
+<button class="p-2.5 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none py-2.5 px-2 font-body-md text-on-surface max-h-32" dir="rtl" id="chat-input" placeholder="اسأل عن أي مفهوم محاسبي..." rows="1"></textarea>
+<div class="flex items-center gap-1">
+<button class="p-2.5 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-all shadow-md" id="send-btn">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</div>
+</div>
+<p class="text-center text-[10px] text-outline/60 mt-3 font-label-sm">المدرب الذكي قد يخطئ، يرجى التحقق من العمليات الحسابية المعقدة.</p>
+</div>
+</div>
+</div>
+</main>
+<script>
+    const textarea = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    sendBtn.addEventListener('click', () => {
+        if (textarea.value.trim() === '') return;
+        textarea.value = '';
+        textarea.style.height = 'auto';
+        
+        typingIndicator.style.display = 'flex';
+        setTimeout(() => {
+            typingIndicator.style.display = 'none';
+        }, 2000);
+    });
+
+    textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendBtn.click();
+        }
+    });
+</script>
+</body></html>
