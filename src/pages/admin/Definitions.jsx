@@ -2,96 +2,91 @@ import { useState } from "react";
 import SectionHeader from "../../components/ui/SectionHeader";
 import SearchBar from "../../components/ui/SearchBar";
 
-export default function AdminVideos() {
-  const [videos, setVideos] = useState([
+export default function AdminDefinitions() {
+  const [definitions, setDefinitions] = useState([
     {
       id: 1,
-      title: "مقدمة في المبادئ المحاسبية",
-      chapter: "النظام المحاسبي",
-      instructor: "د. إبراهيم محمد",
-      duration: "25 دقيقة",
-      views: 1250,
-      uploadDate: "2024-02-15",
-      status: "published",
+      term: "المحاسبة",
+      english: "Accounting",
+      arabic: "علم تسجيل العمليات المالية",
+      description:
+        "المحاسبة هي علم تسجيل وتصنيف وتلخيص العمليات المالية والاقتصادية بطريقة منظمة.",
+      createdDate: "2024-02-15",
+      status: "active",
     },
     {
       id: 2,
-      title: "الحسابات المدينة والدائنة",
-      chapter: "النظام المحاسبي",
-      instructor: "د. إبراهيم محمد",
-      duration: "18 دقيقة",
-      views: 980,
-      uploadDate: "2024-02-14",
-      status: "published",
+      term: "الأصول",
+      english: "Assets",
+      arabic: "الموارد",
+      description:
+        "الأصول هي جميع الموارد والممتلكات التي تمتلكها الشركة والتي لها قيمة اقتصادية.",
+      createdDate: "2024-02-14",
+      status: "active",
     },
     {
       id: 3,
-      title: "معالجة المخزون السلعي",
-      chapter: "الأصول المتداولة",
-      instructor: "د. إبراهيم محمد",
-      duration: "30 دقيقة",
-      views: 650,
-      uploadDate: "2024-02-13",
-      status: "draft",
+      term: "الالتزامات",
+      english: "Liabilities",
+      arabic: "الديون",
+      description:
+        "الالتزامات هي جميع الديون والالتزامات المالية التي على الشركة تسديدها.",
+      createdDate: "2024-02-13",
+      status: "inactive",
     },
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    title: "",
-    chapter: "",
-    instructor: "",
-    duration: "",
+    term: "",
+    english: "",
+    arabic: "",
+    description: "",
   });
 
-  const chapters = [
-    "النظام المحاسبي",
-    "الأصول المتداولة",
-    "القوائم المالية",
-    "قيود اليومية",
-  ];
-
-  const filteredVideos = videos.filter(
-    (video) =>
-      video.title.includes(searchQuery) ||
-      video.chapter.includes(searchQuery) ||
-      video.instructor.includes(searchQuery)
+  const filteredDefinitions = definitions.filter(
+    (def) =>
+      def.term.includes(searchQuery) ||
+      def.english.includes(searchQuery) ||
+      def.arabic.includes(searchQuery) ||
+      def.description.includes(searchQuery)
   );
 
-  const handleAddVideo = (e) => {
+  const handleAddDefinition = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.chapter || !formData.instructor) {
+    if (!formData.term || !formData.english || !formData.arabic) {
       alert("يرجى ملء جميع الحقول المطلوبة");
       return;
     }
 
-    const newVideo = {
-      id: videos.length + 1,
+    const newDefinition = {
+      id: definitions.length + 1,
       ...formData,
-      views: 0,
-      uploadDate: new Date().toISOString().split("T")[0],
-      status: "draft",
+      createdDate: new Date().toISOString().split("T")[0],
+      status: "active",
     };
 
-    setVideos([newVideo, ...videos]);
+    setDefinitions([newDefinition, ...definitions]);
     setFormData({
-      title: "",
-      chapter: "",
-      instructor: "",
-      duration: "",
+      term: "",
+      english: "",
+      arabic: "",
+      description: "",
     });
     setShowForm(false);
   };
 
-  const handleDeleteVideo = (id) => {
-    setVideos(videos.filter((video) => video.id !== id));
+  const handleDeleteDefinition = (id) => {
+    setDefinitions(definitions.filter((def) => def.id !== id));
   };
 
-  const handlePublish = (id) => {
-    setVideos(
-      videos.map((video) =>
-        video.id === id ? { ...video, status: "published" } : video
+  const handleToggleStatus = (id) => {
+    setDefinitions(
+      definitions.map((def) =>
+        def.id === id
+          ? { ...def, status: def.status === "active" ? "inactive" : "active" }
+          : def
       )
     );
   };
@@ -99,15 +94,15 @@ export default function AdminVideos() {
   return (
     <div className="space-y-6">
       <SectionHeader
-        title="إدارة الفيديوهات"
-        description="أضف وعدّل وأدر محاضرات الفيديو على المنصة"
+        title="إدارة المصطلحات"
+        description="أضف وعدّل وأدر قاموس المصطلحات المحاسبية"
       />
 
       {/* Controls */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="w-full md:w-80">
           <SearchBar
-            placeholder="ابحث عن فيديو..."
+            placeholder="ابحث عن مصطلح..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -117,61 +112,41 @@ export default function AdminVideos() {
           className="px-6 py-3 bg-primary text-white rounded-xl font-label-sm hover:bg-primary/90 transition-all flex items-center gap-2"
         >
           <span className="material-symbols-outlined">add</span>
-          فيديو جديد
+          مصطلح جديد
         </button>
       </div>
 
-      {/* Add Video Form */}
+      {/* Add Definition Form */}
       {showForm && (
         <div className="bg-surface-container rounded-xl p-6 border border-outline-variant/20">
-          <form onSubmit={handleAddVideo} className="space-y-4">
-            <div>
-              <label className="block text-label-sm font-medium text-on-surface mb-2">
-                عنوان الفيديو
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                placeholder="أدخل عنوان الفيديو"
-                className="w-full px-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-              />
-            </div>
-
+          <form onSubmit={handleAddDefinition} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-label-sm font-medium text-on-surface mb-2">
-                  الفصل
+                  المصطلح بالعربية
                 </label>
-                <select
-                  value={formData.chapter}
+                <input
+                  type="text"
+                  value={formData.term}
                   onChange={(e) =>
-                    setFormData({ ...formData, chapter: e.target.value })
+                    setFormData({ ...formData, term: e.target.value })
                   }
+                  placeholder="أدخل المصطلح"
                   className="w-full px-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                >
-                  <option value="">اختر فصلاً</option>
-                  {chapters.map((chapter) => (
-                    <option key={chapter} value={chapter}>
-                      {chapter}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
 
               <div>
                 <label className="block text-label-sm font-medium text-on-surface mb-2">
-                  المدرس
+                  المصطلح بالإنجليزية
                 </label>
                 <input
                   type="text"
-                  value={formData.instructor}
+                  value={formData.english}
                   onChange={(e) =>
-                    setFormData({ ...formData, instructor: e.target.value })
+                    setFormData({ ...formData, english: e.target.value })
                   }
-                  placeholder="اسم المدرس"
+                  placeholder="Enter English term"
                   className="w-full px-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 />
               </div>
@@ -179,16 +154,31 @@ export default function AdminVideos() {
 
             <div>
               <label className="block text-label-sm font-medium text-on-surface mb-2">
-                المدة
+                الترجمة الحرفية
               </label>
               <input
                 type="text"
-                value={formData.duration}
+                value={formData.arabic}
                 onChange={(e) =>
-                  setFormData({ ...formData, duration: e.target.value })
+                  setFormData({ ...formData, arabic: e.target.value })
                 }
-                placeholder="مثال: 25 دقيقة"
+                placeholder="الترجمة الحرفية للمصطلح"
                 className="w-full px-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-label-sm font-medium text-on-surface mb-2">
+                الشرح التفصيلي
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                placeholder="أدخل شرح تفصيلي للمصطلح"
+                rows="4"
+                className="w-full px-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
               />
             </div>
 
@@ -197,7 +187,7 @@ export default function AdminVideos() {
                 type="submit"
                 className="flex-1 px-6 py-3 bg-primary text-white rounded-lg font-label-sm hover:bg-primary/90 transition-all"
               >
-                حفظ الفيديو
+                حفظ المصطلح
               </button>
               <button
                 type="button"
@@ -211,26 +201,23 @@ export default function AdminVideos() {
         </div>
       )}
 
-      {/* Videos Table */}
+      {/* Definitions Table */}
       <div className="bg-surface-container rounded-xl border border-outline-variant/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-outline-variant/20 bg-surface-container-low">
                 <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
-                  العنوان
+                  المصطلح
                 </th>
                 <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
-                  الفصل
+                  English
                 </th>
                 <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
-                  المدرس
+                  الترجمة
                 </th>
                 <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
-                  المدة
-                </th>
-                <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
-                  المشاهدات
+                  الشرح
                 </th>
                 <th className="px-6 py-4 text-right text-label-sm font-bold text-on-surface">
                   الحالة
@@ -241,58 +228,57 @@ export default function AdminVideos() {
               </tr>
             </thead>
             <tbody>
-              {filteredVideos.length > 0 ? (
-                filteredVideos.map((video) => (
+              {filteredDefinitions.length > 0 ? (
+                filteredDefinitions.map((def) => (
                   <tr
-                    key={video.id}
+                    key={def.id}
                     className="border-b border-outline-variant/10 hover:bg-surface-container-low transition-all"
                   >
                     <td className="px-6 py-4 text-body-md text-on-surface font-medium">
-                      {video.title}
+                      {def.term}
                     </td>
                     <td className="px-6 py-4 text-body-md text-on-surface-variant">
-                      {video.chapter}
+                      {def.english}
                     </td>
                     <td className="px-6 py-4 text-body-md text-on-surface-variant">
-                      {video.instructor}
+                      {def.arabic}
                     </td>
-                    <td className="px-6 py-4 text-body-md text-on-surface-variant">
-                      {video.duration}
-                    </td>
-                    <td className="px-6 py-4 text-body-md text-on-surface font-medium">
-                      {video.views.toLocaleString("ar-SA")}
+                    <td className="px-6 py-4 text-body-md text-on-surface-variant max-w-xs truncate">
+                      {def.description}
                     </td>
                     <td className="px-6 py-4">
                       <span
                         className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-sm font-medium ${
-                          video.status === "published"
+                          def.status === "active"
                             ? "bg-tertiary/10 text-tertiary"
                             : "bg-primary/10 text-primary"
                         }`}
                       >
                         <span className="material-symbols-outlined text-sm">
-                          {video.status === "published"
+                          {def.status === "active"
                             ? "check_circle"
-                            : "schedule"}
+                            : "block"}
                         </span>
-                        {video.status === "published" ? "منشور" : "مسودة"}
+                        {def.status === "active" ? "نشط" : "معطل"}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        {video.status === "draft" && (
-                          <button
-                            onClick={() => handlePublish(video.id)}
-                            className="p-2 text-tertiary hover:bg-tertiary/10 rounded-lg transition-all"
-                            title="نشر"
-                          >
-                            <span className="material-symbols-outlined text-sm">
-                              publish
-                            </span>
-                          </button>
-                        )}
                         <button
-                          onClick={() => handleDeleteVideo(video.id)}
+                          onClick={() => handleToggleStatus(def.id)}
+                          className={`p-2 rounded-lg transition-all ${
+                            def.status === "active"
+                              ? "text-tertiary hover:bg-tertiary/10"
+                              : "text-on-surface-variant hover:bg-surface-container-high"
+                          }`}
+                          title={def.status === "active" ? "تعطيل" : "تفعيل"}
+                        >
+                          <span className="material-symbols-outlined text-sm">
+                            {def.status === "active" ? "check_circle" : "block"}
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteDefinition(def.id)}
                           className="p-2 text-error hover:bg-error/10 rounded-lg transition-all"
                           title="حذف"
                         >
@@ -306,9 +292,9 @@ export default function AdminVideos() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center">
+                  <td colSpan="6" className="px-6 py-8 text-center">
                     <p className="text-on-surface-variant">
-                      لا توجد فيديوهات تطابق البحث
+                      لا توجد مصطلحات تطابق البحث
                     </p>
                   </td>
                 </tr>
